@@ -53,9 +53,7 @@ export const categoriesListReducer = (state = { categories: [] }, action) => {
     case PRODUCT_CATEGORY_LIST_SUCCESS:
       return {
         loading: false,
-        categories: action.payload.categories,
-        pages: action.payload.pages,
-        page: action.payload.page,
+        categories: action.payload,
       }
     case PRODUCT_CATEGORY_LIST_FAIL:
       return { loading: false, error: action.payload }
@@ -102,7 +100,7 @@ export const productCreateReducer = (state = {}, action) => {
     case PRODUCT_CREATE_FAIL:
       return { loading: false, error: action.payload }
     case PRODUCT_CREATE_RESET:
-      return {}
+      return {product: {}}
     default:
       return state
   }

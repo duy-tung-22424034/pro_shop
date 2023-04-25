@@ -27,11 +27,7 @@ const ProductEditScreen = ({ match, history }) => {
   const { loading, error, product } = productDetails
 
   const productUpdate = useSelector((state) => state.productUpdate)
-  const {
-    loading: loadingUpdate,
-    error: errorUpdate,
-    success: successUpdate,
-  } = productUpdate
+  const { loading: loadingUpdate, error: errorUpdate, success: successUpdate, } = productUpdate
 
   useEffect(() => {
     if (successUpdate) {
@@ -64,7 +60,6 @@ const ProductEditScreen = ({ match, history }) => {
           'Content-Type': 'multipart/form-data',
         },
       }
-
       const { data } = await axios.post('/api/upload', formData, config)
 
       setImage(data)

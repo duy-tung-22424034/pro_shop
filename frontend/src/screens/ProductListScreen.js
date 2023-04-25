@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col } from 'react-bootstrap'
+import { Table, Button, Row, Col, Image } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -31,38 +31,16 @@ const ProductListScreen = ({ history, match }) => {
     success: successDelete,
   } = productDelete
 
-  const productCreate = useSelector((state) => state.productCreate)
-  const {
-    loading: loadingCreate,
-    error: errorCreate,
-    success: successCreate,
-    product: createdProduct,
-  } = productCreate
-
   const userLogin = useSelector((state) => state.userLogin)
   const { userInfo } = userLogin
 
   useEffect(() => {
-    dispatch({ type: PRODUCT_CREATE_RESET })
-
     if (!userInfo || !userInfo.isAdmin) {
       history.push('/login')
     }
 
-    if (successCreate) {
-      history.push(`/admin/product/${createdProduct._id}/edit`)
-    } else {
       dispatch(listProducts('', pageNumber))
-    }
-  }, [
-    dispatch,
-    history,
-    userInfo,
-    successDelete,
-    successCreate,
-    createdProduct,
-    pageNumber,
-  ])
+  }, [])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
@@ -78,16 +56,14 @@ const ProductListScreen = ({ history, match }) => {
         </Col>
         <Col className='text-right'>
           <LinkContainer to={`/admin/product/create`}>
-          <Button className='my-3'>
-            <i className='fas fa-plus'></i> Create Product
-          </Button>
+            <Button className='my-3'>
+              <i className='fas fa-plus'></i> Create Product
+            </Button>
           </LinkContainer>
         </Col>
       </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-      {loadingCreate && <Loader />}
-      {errorCreate && <Message variant='danger'>{errorCreate}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -97,7 +73,7 @@ const ProductListScreen = ({ history, match }) => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
-                <th>ID</th>
+                <th>IMAGE</th>
                 <th>NAME</th>
                 <th>PRICE</th>
                 <th>CATEGORY</th>
@@ -108,7 +84,9 @@ const ProductListScreen = ({ history, match }) => {
             <tbody>
               {products.map((product) => (
                 <tr key={product._id}>
-                  <td>{product._id}</td>
+                  <td>
+                  <Image src={product.image} alt={product.name} width={150} height={150} fluid />
+                  </td>
                   <td>{product.name}</td>
                   <td>${product.price}</td>
                   <td>{product.category}</td>

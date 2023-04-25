@@ -52,21 +52,16 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
   }
 }
 
-export const listCategories = () => async (
-  dispatch
-) => {
+export const listCategories = () => async ( dispatch ) => {
   try {
     dispatch({ type: PRODUCT_CATEGORY_LIST_REQUEST })
 
-    const { data } = await axios.get(
-      `/api/categoris`
-    )
-
+    const { data } = await axios.get( `/api/products/category`)
     dispatch({
       type: PRODUCT_CATEGORY_LIST_SUCCESS,
       payload: data,
     })
-
+    return
   } catch (error) {
     dispatch({
       type: PRODUCT_CATEGORY_LIST_FAIL,

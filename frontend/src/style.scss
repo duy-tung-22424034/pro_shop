@@ -1,7 +1,7 @@
-// $theme-colors: (
-//   "primary": #0074d9,
-//   "danger": #ff4136
-// );
+$color-primary: #4d99d7;
+$background-color-scroll: white;
+$hover-bg-color: #eef5ff;
+
 :root {
     --primary-color: #0074d9;
 }
@@ -30,8 +30,13 @@ button{
     background-color: #ffba00 !important;
 }
 
+.btn-light:hover{
+    background-color: #daa003 !important;
+    color: #0074d9 !important;
+}
+
 .btn-primary{
-    background-color: #FF6000 !important;
+    background-color: $color-primary !important;
 }
 
 .btn-outline-success{
@@ -43,5 +48,49 @@ button{
 .btn-outline-success:hover{
     background-color:  #FF6000 !important;
 }
-// // Import Bootstrap and its default variables
-// @import './bootstrap.min.css';
+
+.dropdown-button button{
+    width: 100% !important;
+}
+.dropdown-button div{
+    width: 100% !important;
+}
+
+.form-control{
+    background-color: #eef5ff !important;
+    color: black !important;
+}
+
+.form-control{
+    background-color: #eef5ff !important;
+}
+
+.table-striped tbody tr:nth-of-type(odd){
+    background-color: #eef5ff !important;
+}
+
+.table-striped tbody tr:hover{
+    background-color: #cadffd !important;
+}
+
+.table-striped tbody tr td{
+    vertical-align: middle !important;
+    button{
+        margin-left: 5px !important;
+    }
+}
+
+thead {
+    background-color: #0074d9 !important;
+    color: #fff !important;
+}
+
+table{
+    border-radius: 10px !important;
+}
+.btn-danger:hover{
+    .fa-trash{
+        color: red !important;
+    }
+
+}
