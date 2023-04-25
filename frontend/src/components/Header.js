@@ -21,9 +21,9 @@ const Header = () => {
       <Navbar bg='dark' variant='dark' expand='lg' collapseOnSelect>
         <Container>
           <LinkContainer to='/'>
-            <Navbar.Brand expand='xl'>G02Shop</Navbar.Brand>
+            <Navbar.Brand expand='xl'>G01Shop</Navbar.Brand>
           </LinkContainer>
-          <Navbar.Toggle aria-controls='basic-navbar-nav' />
+          <Navbar.Toggle className='toggle-button' aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
             <Route render={({ history }) => <SearchBox className='me-2' history={history} />} />
             <Nav className='ml-auto'>

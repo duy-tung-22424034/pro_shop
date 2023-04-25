@@ -7,7 +7,7 @@
 }
 
 .bg-dark{
-    background-color: #FF6000 !important;
+    background-color: #0a804a !important;
 }
 
 .border-5{
@@ -18,7 +18,7 @@
     border-radius:  5px !important;
 }
 
-.button{
+button{
     border-radius:  5px !important;
 }
 
@@ -27,11 +27,21 @@
 }
 
 .btn-light{
-    background-color: #FFA559 !important;
+    background-color: #ffba00 !important;
 }
 
 .btn-primary{
     background-color: #FF6000 !important;
+}
+
+.btn-outline-success{
+    background-color: #0074d9;
+    border: none;
+    color: #ffff;
+}
+
+.btn-outline-success:hover{
+    background-color:  #FF6000 !important;
 }
 // // Import Bootstrap and its default variables
 // @import './bootstrap.min.css';

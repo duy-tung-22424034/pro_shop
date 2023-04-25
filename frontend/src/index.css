@@ -18,6 +18,12 @@ h2 {
 
 button{
   border-radius: 5px !important;
+  background-color: #ffba00 !important;
+}
+
+.toggle-button{
+  outline-color: #fff !important;
+  border-color: transparent !important;
 }
 
 input{

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
@@ -20,6 +20,10 @@ const ProductListScreen = ({ history, match }) => {
   const productList = useSelector((state) => state.productList)
   const { loading, error, products, page, pages } = productList
 
+  //Get list categories
+  // const categoriestList = useSelector((state) => state.categoriestList)
+  // const { categories } = categoriestList
+  // console("categoris",categories)
   const productDelete = useSelector((state) => state.productDelete)
   const {
     loading: loadingDelete,
