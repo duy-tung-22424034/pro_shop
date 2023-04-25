@@ -4,15 +4,33 @@ import { Card } from 'react-bootstrap'
 import Rating from './Rating'
 
 const Product = ({ product }) => {
+  const overText = {
+    minHeight: "40px",
+    display: "-webkit-box",
+    webkitLineClamp: "2",
+    webkitBoxOrient: "vertical",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+  };
+  const overImg = {
+    minHeight: "176px",
+    position: "relative"
+  }
+  const imgInner = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)"
+  }
   return (
-    <Card className='my-3 p-3 rounded'>
-      <Link to={`/product/${product._id}`}>
-        <Card.Img src={product.image} variant='top' />
+    <Card className='my-3 p-3 rounded '>
+      <Link to={`/product/${product._id}`} style={overImg}>
+        <Card.Img src={product.image} variant='top' style={imgInner}/>
       </Link>
 
       <Card.Body>
         <Link to={`/product/${product._id}`}>
-          <Card.Title as='div'>
+          <Card.Title as='div' style={overText}>
             <strong>{product.name}</strong>
           </Card.Title>
         </Link>

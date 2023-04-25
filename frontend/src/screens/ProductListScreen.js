@@ -123,6 +123,7 @@ const ProductListScreen = ({ history, match }) => {
                       variant='danger'
                       className='btn-sm'
                       onClick={() => deleteHandler(product._id)}
+                      style={{marginLeft: "10px"}}
                     >
                       <i className='fas fa-trash'></i>
                     </Button>
