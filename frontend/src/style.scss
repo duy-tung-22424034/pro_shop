@@ -94,3 +94,17 @@ table{
     }
 
 }
+
+.select-category{
+    background-color: #eef5ff;
+    border : none;
+    border-radius: 4px;
+    color: #555;
+    height: calc(1.5em + 1.5rem + 0px);
+    padding: 0 10px;
+    width: 100%;
+}
+
+.option-category {
+    height: calc(1.5em + 1.5rem + 0px);
+}

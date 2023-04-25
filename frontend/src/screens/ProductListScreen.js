@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col, Image } from 'react-bootstrap'
+import { Table, Button, Row, Col, Image, InputGroup,Form } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Message from '../components/Message'
 import Loader from '../components/Loader'
@@ -16,14 +16,11 @@ const ProductListScreen = ({ history, match }) => {
   const pageNumber = match.params.pageNumber || 1
 
   const dispatch = useDispatch()
+  const [keyWord,setKeyWord] = useState('')
 
   const productList = useSelector((state) => state.productList)
   const { loading, error, products, page, pages } = productList
 
-  //Get list categories
-  // const categoriestList = useSelector((state) => state.categoriestList)
-  // const { categories } = categoriestList
-  // console("categoris",categories)
   const productDelete = useSelector((state) => state.productDelete)
   const {
     loading: loadingDelete,
@@ -39,13 +36,17 @@ const ProductListScreen = ({ history, match }) => {
       history.push('/login')
     }
 
-      dispatch(listProducts('', pageNumber))
+      dispatch(listProducts(keyWord, pageNumber))
   }, [])
 
   const deleteHandler = (id) => {
     if (window.confirm('Are you sure')) {
       dispatch(deleteProduct(id))
     }
+  }
+
+  const searchProducts = ()=>{
+    dispatch(listProducts(keyWord,pageNumber))
   }
 
   return (
@@ -62,6 +63,19 @@ const ProductListScreen = ({ history, match }) => {
           </LinkContainer>
         </Col>
       </Row>
+      <Row className='align-items-center' style={{paddingLeft: "15px",paddingRight: "15px"}}>
+        <InputGroup className="mb-2">
+            <Form.Control
+              placeholder="Name, Category, Brand, ..."
+              value={keyWord}
+              onSubmit={searchProducts}
+              onChange={e=>setKeyWord(e.target.value)}
+              />
+              <Button className='ml-2' onClick={searchProducts}>
+                <i className='fas fa-search'></i> Search
+              </Button>
+        </InputGroup>
+      </Row>
       {loadingDelete && <Loader />}
       {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
       {loading ? (
@@ -73,6 +87,7 @@ const ProductListScreen = ({ history, match }) => {
           <Table striped bordered hover responsive className='table-sm'>
             <thead>
               <tr>
+                <th>Index</th>
                 <th>IMAGE</th>
                 <th>NAME</th>
                 <th>PRICE</th>
@@ -82,8 +97,9 @@ const ProductListScreen = ({ history, match }) => {
               </tr>
             </thead>
             <tbody>
-              {products.map((product) => (
+              {products.map((product,index) => (
                 <tr key={product._id}>
+                  <td>{index}</td>
                   <td>
                   <Image src={product.image} alt={product.name} width={150} height={150} fluid />
                   </td>

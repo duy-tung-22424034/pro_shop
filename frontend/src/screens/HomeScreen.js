@@ -8,7 +8,7 @@ import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
-import { listProducts } from '../actions/productActions'
+import { listProducts,listCategories } from '../actions/productActions'
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
@@ -17,8 +17,16 @@ const HomeScreen = ({ match }) => {
 
   const dispatch = useDispatch()
 
+  const categoriestLists = useSelector((state) => state.categoriestList)
+  const { categories } = categoriestLists
+
   const productList = useSelector((state) => state.productList)
   const { loading, error, products, page, pages } = productList
+
+  useEffect(() => {
+    dispatch(listCategories())
+  }, [])
+
 
   useEffect(() => {
     dispatch(listProducts(keyword, pageNumber))
@@ -40,7 +48,12 @@ const HomeScreen = ({ match }) => {
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
-        <>
+        <div className='container-product'>
+          <Row>
+            <button>Test1</button>
+            <button>Test1</button>
+            <button>Test1</button>
+          </Row>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -53,7 +66,7 @@ const HomeScreen = ({ match }) => {
             page={page}
             keyword={keyword ? keyword : ''}
           />
-        </>
+        </div>
       )}
     </>
   )

@@ -61,7 +61,7 @@ export const listCategories = () => async ( dispatch ) => {
       type: PRODUCT_CATEGORY_LIST_SUCCESS,
       payload: data,
     })
-    return
+    console.log("data",data)
   } catch (error) {
     dispatch({
       type: PRODUCT_CATEGORY_LIST_FAIL,
