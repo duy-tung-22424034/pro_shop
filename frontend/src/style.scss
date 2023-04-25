@@ -1,0 +1,37 @@
+// $theme-colors: (
+//   "primary": #0074d9,
+//   "danger": #ff4136
+// );
+:root {
+    --primary-color: #0074d9;
+}
+
+.bg-dark{
+    background-color: #FF6000 !important;
+}
+
+.border-5{
+    border-radius: 5px;
+}
+
+.input{
+    border-radius:  5px !important;
+}
+
+.button{
+    border-radius:  5px !important;
+}
+
+.border-20{
+    border-radius: 20px;
+}
+
+.btn-light{
+    background-color: #FFA559 !important;
+}
+
+.btn-primary{
+    background-color: #FF6000 !important;
+}
+// // Import Bootstrap and its default variables
+// @import './bootstrap.min.css';

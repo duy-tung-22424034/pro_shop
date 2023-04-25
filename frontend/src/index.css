@@ -16,6 +16,18 @@ h2 {
   padding: 0.5rem 0;
 }
 
+button{
+  border-radius: 5px !important;
+}
+
+input{
+  border-radius: 5px !important;
+}
+
+a{
+  border-radius: 5px !important;
+}
+
 .rating span {
   margin: 0.1rem;
 }
@@ -31,7 +43,7 @@ h2 {
   top: 0;
 }
 
-.carousel-caption h2 {
+.carousel-caption h4 {
   color: #fff;
 }
 
@@ -43,9 +55,13 @@ h2 {
   margin-left: auto;
   margin-right: auto;
 }
+
 .carousel a {
   margin: 0 auto;
 }
+
+
+
 @media (max-width: 900px) {
   .carousel-caption h2 {
     font-size: 2.5vw;
