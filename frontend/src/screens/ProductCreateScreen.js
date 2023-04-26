@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Form, Button, Image, Row, Col, Combobox } from "react-bootstrap";
+import { Form, Button, Image, Row, Col } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
@@ -93,14 +93,9 @@ const ProductCreateScreen = ({ match, history }) => {
       </Link>
       <FormContainer className="Test-123">
         <h1>Create Product</h1>
-        {loading && <Loader />}
-        {error && <Message variant="danger">{error}</Message>}
-        {loading ? (
-          <Loader />
-        ) : error ? (
-          <Message variant="danger">{error}</Message>
-        ) : (
-          <Form className="form-container" onSubmit={submitHandler}>
+        {loading && ( <Loader /> )} 
+        {error && (<Message variant="danger">{error}</Message>)}
+        <Form className="form-container" onSubmit={submitHandler}>
             <Row>
               <Col>
                 <Form.Group controlId="name">
@@ -193,7 +188,6 @@ const ProductCreateScreen = ({ match, history }) => {
               Create
             </Button>
           </Form>
-        )}
       </FormContainer>
     </>
   );

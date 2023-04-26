@@ -1,135 +1,174 @@
-import React, { useEffect, useState } from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button, Row, Col, Image, InputGroup,Form } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
-import Message from '../components/Message'
-import Loader from '../components/Loader'
-import Paginate from '../components/Paginate'
+import React, { useEffect, useState } from "react";
+import { LinkContainer } from "react-router-bootstrap";
+import {
+  Table,
+  Button,
+  Row,
+  Col,
+  Image,
+  InputGroup,
+  Form,
+} from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import Message from "../components/Message";
+import Loader from "../components/Loader";
+import Paginate from "../components/Paginate";
 import {
   listProducts,
   deleteProduct,
   createProduct,
-} from '../actions/productActions'
-import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
+} from "../actions/productActions";
+import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
 const ProductListScreen = ({ history, match }) => {
-  const pageNumber = match.params.pageNumber || 1
+  const pageNumber = match.params.pageNumber || 1;
 
-  const dispatch = useDispatch()
-  const [keyWord,setKeyWord] = useState('')
+  const dispatch = useDispatch();
+  const [keyWord, setKeyWord] = useState("");
+  const [sortName, setSortName] = useState("");
+  const [sort, setSort] = useState(true);
 
-  const productList = useSelector((state) => state.productList)
-  const { loading, error, products, page, pages } = productList
+  const productList = useSelector((state) => state.productList);
+  const { loading, error, products, page, pages } = productList;
 
-  const productDelete = useSelector((state) => state.productDelete)
+  const productDelete = useSelector((state) => state.productDelete);
   const {
     loading: loadingDelete,
     error: errorDelete,
     success: successDelete,
-  } = productDelete
+  } = productDelete;
 
-  const userLogin = useSelector((state) => state.userLogin)
-  const { userInfo } = userLogin
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   useEffect(() => {
     if (!userInfo || !userInfo.isAdmin) {
-      history.push('/login')
+      history.push("/login");
     }
 
-      dispatch(listProducts(keyWord, pageNumber))
-  }, [])
+    dispatch(listProducts(keyWord, pageNumber, sortName, sort));
+  }, []);
 
   const deleteHandler = (id) => {
-    if (window.confirm('Are you sure')) {
-      dispatch(deleteProduct(id))
+    if (window.confirm("Are you sure")) {
+      dispatch(deleteProduct(id));
     }
-  }
+  };
 
-  const searchProducts = ()=>{
-    dispatch(listProducts(keyWord,pageNumber))
-  }
+  const searchProducts = () => {
+    dispatch(listProducts(keyWord, pageNumber, sortName, sort));
+  };
+
+  useEffect(() => {
+    dispatch(listProducts(keyWord, pageNumber, sortName, sort));
+  }, [sortName, sort]);
+
+  const onClickSort = (name) => {
+    if (sortName == name) {
+      setSort(!sort);
+    } else {
+      setSortName(name);
+    }
+  };
 
   return (
     <>
-      <Row className='align-items-center'>
+      <Row className="align-items-center">
         <Col>
           <h1>Products</h1>
         </Col>
-        <Col className='text-right'>
+        <Col className="text-right">
           <LinkContainer to={`/admin/product/create`}>
-            <Button className='my-3'>
-              <i className='fas fa-plus'></i> Create Product
+            <Button className="my-3">
+              <i className="fas fa-plus"></i> Create Product
             </Button>
           </LinkContainer>
         </Col>
       </Row>
-      <Row className='align-items-center' style={{paddingLeft: "15px",paddingRight: "15px"}}>
+      <Row
+        className="align-items-center"
+        style={{ paddingLeft: "15px", paddingRight: "15px" }}
+      >
         <InputGroup className="mb-2">
-            <Form.Control
-              placeholder="Name, Category, Brand, ..."
-              value={keyWord}
-              onSubmit={searchProducts}
-              onChange={e=>setKeyWord(e.target.value)}
-              />
-              <Button className='ml-2' onClick={searchProducts}>
-                <i className='fas fa-search'></i> Search
-              </Button>
+          <Form.Control
+            placeholder="Name, Category, Brand, ..."
+            value={keyWord}
+            onSubmit={searchProducts}
+            onChange={(e) => setKeyWord(e.target.value)}
+          />
+          <Button className="ml-2" onClick={searchProducts}>
+            <i className="fas fa-search"></i> Search
+          </Button>
         </InputGroup>
       </Row>
       {loadingDelete && <Loader />}
-      {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
-      {loading ? (
-        <Loader />
-      ) : error ? (
-        <Message variant='danger'>{error}</Message>
-      ) : (
-        <>
-          <Table striped bordered hover responsive className='table-sm'>
-            <thead>
-              <tr>
-                <th>Index</th>
-                <th>IMAGE</th>
-                <th>NAME</th>
-                <th>PRICE</th>
-                <th>CATEGORY</th>
-                <th>BRAND</th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody>
-              {products.map((product,index) => (
-                <tr key={product._id}>
-                  <td>{index}</td>
-                  <td>
-                  <Image src={product.image} alt={product.name} width={150} height={150} fluid />
-                  </td>
-                  <td>{product.name}</td>
-                  <td>${product.price}</td>
-                  <td>{product.category}</td>
-                  <td>{product.brand}</td>
-                  <td>
-                    <LinkContainer to={`/admin/product/${product._id}/edit`}>
-                      <Button variant='light' className='btn-sm'>
-                        <i className='fas fa-edit'></i>
-                      </Button>
-                    </LinkContainer>
-                    <Button
-                      variant='danger'
-                      className='btn-sm'
-                      onClick={() => deleteHandler(product._id)}
-                    >
-                      <i className='fas fa-trash'></i>
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
+      {loading && <Loader />}
+      {error && <Message variant="danger">{error}</Message>}
+      <>
+        <Table striped bordered hover responsive className="table-sm">
+          <thead>
+            <tr>
+              <th width={50}>Index</th>
+              <th width={120}>IMAGE</th>
+              <th width={250} onClick={() => onClickSort("name")}>
+                NAME <i class="fa fa-fw fa-sort"></i>
+              </th>
+              <th width={120} onClick={() => onClickSort("price")}>
+                PRICE <i class="fa fa-fw fa-sort"></i>
+              </th>
+              <th width={120} onClick={() => onClickSort("countInStock")}>
+                QUANTITY <i class="fa fa-fw fa-sort"></i>
+              </th>
+              <th width={150} onClick={() => onClickSort("category")}>
+                CATEGORY <i class="fa fa-fw fa-sort"></i>
+              </th>
+              <th width={120} onClick={() => onClickSort("brand")}>
+                BRAND <i class="fa fa-fw fa-sort"></i>
+              </th>
+              <th>ACTION</th>
+            </tr>
+          </thead>
+          <tbody>
+            {products.map((product, index) => (
+              <tr key={product._id}>
+                <td>{index}</td>
+                <td>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={150}
+                    height={150}
+                    fluid
+                  />
+                </td>
+                <td>{product.name}</td>
+                <td>${product.price}</td>
+                <td>{product.countInStock}</td>
+                <td>{product.category}</td>
+                <td>{product.brand}</td>
+                <td>
+                  <LinkContainer to={`/admin/product/${product._id}/edit`}>
+                    <Button variant="light" className="btn-sm">
+                      <i className="fas fa-edit"></i>
                     </Button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Paginate pages={pages} page={page} isAdmin={true} />
-        </>
-      )}
+                  </LinkContainer>
+                  <Button
+                    variant="danger"
+                    className="btn-sm"
+                    onClick={() => deleteHandler(product._id)}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+        <Paginate pages={pages} page={page} isAdmin={true} />
+      </>
     </>
-  )
-}
+  );
+};
 
-export default ProductListScreen
+export default ProductListScreen;

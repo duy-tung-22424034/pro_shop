@@ -18,7 +18,7 @@ const HomeScreen = ({ match }) => {
   const dispatch = useDispatch()
 
   const productAllList = useSelector((state) => state.productAllList)
-  const { loadingCategory, productByCategorys } = productAllList
+  const { loading : loadingCategory, productByCategorys } = productAllList
 
   const productList = useSelector((state) => state.productList)
   const { loading, error, products, page, pages } = productList
@@ -35,16 +35,17 @@ const HomeScreen = ({ match }) => {
   return (
     <>
       <Meta />
+      {(loading || loadingCategory) && <Loader/> }
       {!keyword ? (
         <ProductCarousel />
-      ) : (
+      ) 
+      : 
+      (
         <>
         <Link to='/' className='btn btn-light'>
           Go Back
         </Link>
-      {loading ? (
-        <Loader />
-      ) : error ? (
+      { error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
         <div className='container-product'>
