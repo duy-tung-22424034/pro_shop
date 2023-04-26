@@ -2,9 +2,12 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,  
-  PRODUCT_CATEGORY_LIST_REQUEST,
-  PRODUCT_CATEGORY_LIST_SUCCESS,
-  PRODUCT_CATEGORY_LIST_FAIL,
+  CATEGORY_LIST_REQUEST,
+  CATEGORY_LIST_SUCCESS,
+  LISTPRODUCT_BY_CATEGORY_LIST_REQUEST,
+  LISTPRODUCT_BY_CATEGORY_LIST_SUCCESS,
+  LISTPRODUCT_BY_CATEGORY_LIST_FAIL,
+  CATEGORY_LIST_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
@@ -46,16 +49,33 @@ export const productListReducer = (state = { products: [] }, action) => {
   }
 }
 
+export const productAllListReducer = (state = { categories: [] }, action) => {
+  switch (action.type) {
+    case LISTPRODUCT_BY_CATEGORY_LIST_REQUEST:
+      return { loading: true, products: [] }
+    case LISTPRODUCT_BY_CATEGORY_LIST_SUCCESS:
+      console.log("action",action)
+      return {
+        loading: false,
+        productByCategorys: action.payload
+      }
+    case LISTPRODUCT_BY_CATEGORY_LIST_FAIL:
+      return { loading: false, error: action.payload }
+    default:
+      return state
+  }
+}
+
 export const categoriesListReducer = (state = { categories: [] }, action) => {
   switch (action.type) {
-    case PRODUCT_CATEGORY_LIST_REQUEST:
+    case CATEGORY_LIST_REQUEST:
       return { loading: true, categories: [] }
-    case PRODUCT_CATEGORY_LIST_SUCCESS:
+    case CATEGORY_LIST_SUCCESS:
       return {
         loading: false,
         categories: action.payload,
       }
-    case PRODUCT_CATEGORY_LIST_FAIL:
+    case CATEGORY_LIST_FAIL:
       return { loading: false, error: action.payload }
     default:
       return state

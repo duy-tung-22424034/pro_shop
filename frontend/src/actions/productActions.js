@@ -3,9 +3,12 @@ import {
   PRODUCT_LIST_REQUEST,
   PRODUCT_LIST_SUCCESS,
   PRODUCT_LIST_FAIL,
-  PRODUCT_CATEGORY_LIST_REQUEST,
-  PRODUCT_CATEGORY_LIST_SUCCESS,
-  PRODUCT_CATEGORY_LIST_FAIL,
+  CATEGORY_LIST_REQUEST,
+  CATEGORY_LIST_SUCCESS,
+  CATEGORY_LIST_FAIL,
+  LISTPRODUCT_BY_CATEGORY_LIST_REQUEST,
+  LISTPRODUCT_BY_CATEGORY_LIST_SUCCESS,
+  LISTPRODUCT_BY_CATEGORY_LIST_FAIL,
   PRODUCT_DETAILS_REQUEST,
   PRODUCT_DETAILS_SUCCESS,
   PRODUCT_DETAILS_FAIL,
@@ -52,19 +55,54 @@ export const listProducts = (keyword = '', pageNumber = '') => async (
   }
 }
 
+export const listProductByCategories = () => async (
+  dispatch
+) => {
+  try {
+    dispatch({ type: LISTPRODUCT_BY_CATEGORY_LIST_REQUEST })
+   var {data} = await axios.get( `/api/products/all`)
+
+
+   const categories = data.reduce((listcategorys, item) => {    
+    if (!listcategorys[item.category]) 
+    {
+      listcategorys[item.category] = []
+    }
+    listcategorys[item.category].push(item)
+    return listcategorys;
+  }, {});
+  
+  console.log("categories",categories)
+
+    dispatch({
+      type: LISTPRODUCT_BY_CATEGORY_LIST_SUCCESS,
+      payload: categories,
+    })
+  } catch (error) {
+    dispatch({
+      type: LISTPRODUCT_BY_CATEGORY_LIST_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    })
+  }
+}
+
+
+
 export const listCategories = () => async ( dispatch ) => {
   try {
-    dispatch({ type: PRODUCT_CATEGORY_LIST_REQUEST })
+    dispatch({ type: CATEGORY_LIST_REQUEST })
 
     const { data } = await axios.get( `/api/products/categories`)
     dispatch({
-      type: PRODUCT_CATEGORY_LIST_SUCCESS,
+      type: CATEGORY_LIST_SUCCESS,
       payload: data,
     })
-    console.log("data",data)
   } catch (error) {
     dispatch({
-      type: PRODUCT_CATEGORY_LIST_FAIL,
+      type: CATEGORY_LIST_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

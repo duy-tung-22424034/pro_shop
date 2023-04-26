@@ -3,7 +3,7 @@ import Product from "../models/productModel.js";
 import User from '../models/userModel.js';
 import jwt from 'jsonwebtoken';
 
-// @desc    Fetch all products
+// @desc    Fetch products paging
 // @route   GET /api/products
 // @access  Public
 const getProducts = asyncHandler(async (req, res) => {
@@ -31,6 +31,14 @@ const getProducts = asyncHandler(async (req, res) => {
     .sort({ [sortBy]: sort });
 
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
+});
+
+// @desc    Fetch all products
+// @route   GET /api/products
+// @access  Public
+const getAllProducts = asyncHandler(async (req, res) => {
+  const products = await Product.find().sort({ price: 1 });
+  res.json(products);
 });
 
 // @desc    Fetch all products
@@ -175,6 +183,7 @@ const getTopProducts = asyncHandler(async (req, res) => {
 
 export {
   getProducts,
+  getAllProducts,
   getProductById,
   deleteProduct,
   createProduct,

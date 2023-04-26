@@ -8,7 +8,7 @@ import Loader from '../components/Loader'
 import Paginate from '../components/Paginate'
 import ProductCarousel from '../components/ProductCarousel'
 import Meta from '../components/Meta'
-import { listProducts,listCategories } from '../actions/productActions'
+import { listProducts,listProductByCategories } from '../actions/productActions'
 
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
@@ -17,14 +17,14 @@ const HomeScreen = ({ match }) => {
 
   const dispatch = useDispatch()
 
-  const categoriestLists = useSelector((state) => state.categoriestList)
-  const { categories } = categoriestLists
+  const productAllList = useSelector((state) => state.productAllList)
+  const { loadingCategory, productByCategorys } = productAllList
 
   const productList = useSelector((state) => state.productList)
   const { loading, error, products, page, pages } = productList
 
   useEffect(() => {
-    dispatch(listCategories())
+    dispatch(listProductByCategories())
   }, [])
 
 
@@ -38,22 +38,16 @@ const HomeScreen = ({ match }) => {
       {!keyword ? (
         <ProductCarousel />
       ) : (
+        <>
         <Link to='/' className='btn btn-light'>
           Go Back
         </Link>
-      )}
-      <h1>Latest Products</h1>
       {loading ? (
         <Loader />
       ) : error ? (
         <Message variant='danger'>{error}</Message>
       ) : (
         <div className='container-product'>
-          <Row>
-            <button>Test1</button>
-            <button>Test1</button>
-            <button>Test1</button>
-          </Row>
           <Row>
             {products.map((product) => (
               <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -68,6 +62,26 @@ const HomeScreen = ({ match }) => {
           />
         </div>
       )}
+        </>
+      )}
+      {productByCategorys && Object.entries(productByCategorys).map((item,index)=>(
+        <><h1 className='category-title'>{item[0]}</h1>
+        <div className='container-product'>
+          <Row>
+            {item[1].map((product,index) => (
+              <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                <Product product={product} />
+              </Col>
+            ))}
+          </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ''}
+          />
+        </div>
+        </>
+      ))}
     </>
   )
 }
