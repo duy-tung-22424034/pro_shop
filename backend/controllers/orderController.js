@@ -110,7 +110,11 @@ const getMyOrders = asyncHandler(async (req, res) => {
 // @route   GET /api/orders
 // @access  Private/Admin
 const getOrders = asyncHandler(async (req, res) => {
-  const orders = await Order.find({}).populate('user', 'id name')
+
+  const sort = req.query.sort ? req.query.sort : "desc";
+  const sortBy = req.query.sortBy ? req.query.sortBy : "createdAt";
+
+  const orders = await Order.find({}).sort({[sortBy]: sort}).populate('user', 'id name')
   res.json(orders)
 })
 

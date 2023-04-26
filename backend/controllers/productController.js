@@ -21,10 +21,14 @@ const getProducts = asyncHandler(async (req, res) => {
 
   const category = req.query.category ? { category: req.query.category } : {};
 
+  const sort = req.query.sort ? req.query.sort : "asc";
+  const sortBy = req.query.sortBy ? req.query.sortBy : "name";
+
   const count = await Product.countDocuments({ ...keyword });
   const products = await Product.find({ ...keyword, ...category })
     .limit(pageSize)
-    .skip(pageSize * (page - 1));
+    .skip(pageSize * (page - 1))
+    .sort({ [sortBy]: sort });
 
   res.json({ products, page, pages: Math.ceil(count / pageSize) });
 });
