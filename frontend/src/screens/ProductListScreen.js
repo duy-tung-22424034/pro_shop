@@ -17,6 +17,7 @@ import Paginate from "../components/Paginate";
 import {
   listProducts,
   deleteProduct,
+  listCategories
 } from "../actions/productActions";
 
 const ProductListScreen = ({ history, match }) => {
@@ -24,11 +25,15 @@ const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
   const [keyWord, setKeyWord] = useState("");
   const [sortName, setSortName] = useState("");
+  const [category, setCategory] = useState("");
   const [sort, setSort] = useState(true);
   const [pageNumber,setPageNumber] = useState(1);
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
+
+  const categoriestLists = useSelector((state) => state.categoriestList);
+  const { categories } = categoriestLists;
 
   const productDelete = useSelector((state) => state.productDelete);
   const {
@@ -46,6 +51,7 @@ const ProductListScreen = ({ history, match }) => {
     }
 
     dispatch(listProducts(keyWord, pageNumber, sortName, sort));
+    dispatch(listCategories())
   }, []);
 
   const deleteHandler = (id) => {
@@ -59,8 +65,8 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   useEffect(() => {
-    dispatch(listProducts(keyWord, pageNumber, sortName, sort));
-  }, [sortName, sort,pageNumber]);
+    dispatch(listProducts(keyWord, pageNumber, sortName, sort,category));
+  }, [sortName, sort,pageNumber,category]);
 
   const onClickSort = (name) => {
     if (sortName == name) {
@@ -88,12 +94,25 @@ const ProductListScreen = ({ history, match }) => {
         className="align-items-center"
         style={{ paddingLeft: "15px", paddingRight: "15px" }}
       >
-        <InputGroup className="mb-2">
+        <select className="select-category form-select"
+        style={{marginBottom:'10px'}}
+        aria-label="Default select example"
+                        onChange={(e)=>{
+                          setCategory(e.target.value)
+                          console.log(e.target.value)
+                        }} value={category} required>
+                    <option value={''}>Choose Category</option>
+                    {categories && categories.map((ct,index) => (
+                      <option value={ct} key={index}>{ct}</option>
+                    ))}
+                  </select>
+        <InputGroup className="mb-2" onSubmit={()=>searchProducts}>
           <Form.Control
             placeholder="Name, Category, Brand, ..."
             value={keyWord}
-            onSubmit={searchProducts}
-            onChange={(e) => setKeyWord(e.target.value)}
+            type="text"
+            onSubmit={()=>searchProducts}
+            onChange={(e) => setKeyWord(e.target.value)} 
           />
           <Button className="ml-2" onClick={searchProducts}>
             <i className="fas fa-search"></i> Search
@@ -168,16 +187,6 @@ const ProductListScreen = ({ history, match }) => {
           pages > 1 && (
             <Pagination>
               {[...Array(pages).keys()].map((x) => (
-                // <LinkContainer
-                //   key={x + 1}
-                //   to={
-                //     !isAdmin
-                //       ? keyword
-                //         ? `/search/${keyword}/page/${x + 1}`
-                //         : `/page/${x + 1}`
-                //       : `/admin/productlist/${x + 1}`
-                //   }
-                // >
                   <Pagination.Item active={x + 1 === page} key={x+1} onClick={()=>setPageNumber(x+1)}>{x + 1}</Pagination.Item>
               ))}
             </Pagination>

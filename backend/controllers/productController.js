@@ -24,7 +24,7 @@ const getProducts = asyncHandler(async (req, res) => {
   const sort = req.query.sort ? req.query.sort : "asc";
   const sortBy = req.query.sortBy ? req.query.sortBy : "name";
 
-  const count = await Product.countDocuments({ ...keyword });
+  const count = await Product.countDocuments({ ...keyword ,...category});
   const products = await Product.find({ ...keyword, ...category })
     .limit(pageSize)
     .skip(pageSize * (page - 1))

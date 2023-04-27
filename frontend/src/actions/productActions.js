@@ -30,19 +30,20 @@ import {
 } from '../constants/productConstants'
 import { logout } from './userActions'
 
-export const listProducts = (keyword = '', pageNumber = '',sortName='', sort=true) => async (
+export const listProducts = (keyword = '', pageNumber = '',sortName='', sort=true,category='') => async (
   dispatch
 ) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST })
-
+    console.log("call api",category)
     const { data } = await axios.get(
-      `/api/products?keyword=${keyword}&pageNumber=${pageNumber}&sortBy=${sortName}&sort=${sort ? 'asc' : 'desc'}`
+      `/api/products?keyword=${keyword}&category=${category}&pageNumber=${pageNumber}&sortBy=${sortName}&sort=${sort ? 'asc' : 'desc'}`
     )
     dispatch({
       type: PRODUCT_LIST_SUCCESS,
       payload: data,
     })
+    console.log("data",data)
   } catch (error) {
     dispatch({
       type: PRODUCT_LIST_FAIL,

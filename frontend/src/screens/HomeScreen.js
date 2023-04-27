@@ -14,6 +14,9 @@ import { listProducts,listProductByCategories } from '../actions/productActions'
 const HomeScreen = ({ match }) => {
   const keyword = match.params.keyword
 
+  const category = match.params.category
+  console.log("category",category)
+
   const pageNumber = match.params.pageNumber || 1
 
   const dispatch = useDispatch()
@@ -33,8 +36,8 @@ const HomeScreen = ({ match }) => {
 
 
   useEffect(() => {
-    dispatch(listProducts(keyword, pageNumber))
-  }, [dispatch, keyword, pageNumber])
+    dispatch(listProducts(keyword, pageNumber,'',true, category))
+  }, [dispatch, keyword, pageNumber,category])
 
   return (
     <>
@@ -46,7 +49,7 @@ const HomeScreen = ({ match }) => {
         <>
           <Meta />
           {(loading || loadingCategory) && <Loader/> }
-          {!keyword ? (
+          {!keyword && !category? (
             <ProductCarousel />
           ) 
           : 
@@ -76,7 +79,7 @@ const HomeScreen = ({ match }) => {
           )}
             </>
           )}
-          {!keyword && productByCategorys && Object.entries(productByCategorys).map((item,index)=>(
+          {!keyword && !category && productByCategorys && Object.entries(productByCategorys).map((item,index)=>(
             <React.Fragment key={index}>
               <h1 className='category-title'>{item[0]}</h1>
               <div className='container-product'>
