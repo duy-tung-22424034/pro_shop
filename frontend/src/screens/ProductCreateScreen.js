@@ -115,7 +115,7 @@ const ProductCreateScreen = ({ match, history }) => {
                     type="number"
                     placeholder="Enter price"
                     value={price}
-                    isInvalid={price>=0}
+                    isInvalid={price<=0}
                     step={1000}
                     onChange={(e) => setPrice(e.target.value)}
                   ></Form.Control>
@@ -148,7 +148,7 @@ const ProductCreateScreen = ({ match, history }) => {
                   <Form.Label>Count In Stock</Form.Label>
                   <Form.Control
                     type="number"
-                    isInvalid={countInStock>=0}
+                    isInvalid={countInStock<=0}
                     placeholder="Enter countInStock"
                     value={countInStock}
                     onChange={(e) => setCountInStock(e.target.value)}

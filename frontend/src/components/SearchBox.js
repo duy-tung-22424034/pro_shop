@@ -47,10 +47,10 @@ const SearchBox = ({ history }) => {
           {
             if(keyword.trim())
             {
-              history.push(`/search/category/${keyword}/${category}`);
+              history.push(`/search/category/${keyword}/${e.target.value}`);
             }
             else{
-              history.push(`/category/${category}`);
+              history.push(`/category/${e.target.value}`);
             }
           }
         }}

@@ -61,7 +61,7 @@ const ProductListScreen = ({ history, match }) => {
   };
 
   const searchProducts = () => {
-    dispatch(listProducts(keyWord, pageNumber, sortName, sort));
+    dispatch(listProducts(keyWord, pageNumber, sortName, sort,category));
   };
 
   useEffect(() => {
@@ -99,7 +99,6 @@ const ProductListScreen = ({ history, match }) => {
         aria-label="Default select example"
                         onChange={(e)=>{
                           setCategory(e.target.value)
-                          console.log(e.target.value)
                         }} value={category} required>
                     <option value={''}>Choose Category</option>
                     {categories && categories.map((ct,index) => (
