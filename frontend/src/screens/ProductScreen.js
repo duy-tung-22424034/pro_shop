@@ -182,6 +182,7 @@ const ProductScreen = ({ history, match }) => {
                       <Form.Control
                         as="select"
                         value={rating}
+                        required
                         onChange={(e) => setRating(e.target.value)}
                       >
                         <option value="">Select...</option>
@@ -196,6 +197,7 @@ const ProductScreen = ({ history, match }) => {
                       <Form.Label>Comment</Form.Label>
                       <Form.Control
                         as="textarea"
+                        required
                         row="3"
                         value={comment}
                         onChange={(e) => setComment(e.target.value)}

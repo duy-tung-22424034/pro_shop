@@ -8,6 +8,7 @@ import {
   Image,
   InputGroup,
   Form,
+  Pagination
 } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
@@ -16,17 +17,15 @@ import Paginate from "../components/Paginate";
 import {
   listProducts,
   deleteProduct,
-  createProduct,
 } from "../actions/productActions";
-import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
 const ProductListScreen = ({ history, match }) => {
-  const pageNumber = match?.params.pageNumber || 1;
 
   const dispatch = useDispatch();
   const [keyWord, setKeyWord] = useState("");
   const [sortName, setSortName] = useState("");
   const [sort, setSort] = useState(true);
+  const [pageNumber,setPageNumber] = useState(1);
 
   const productList = useSelector((state) => state.productList);
   const { loading, error, products, page, pages } = productList;
@@ -61,7 +60,7 @@ const ProductListScreen = ({ history, match }) => {
 
   useEffect(() => {
     dispatch(listProducts(keyWord, pageNumber, sortName, sort));
-  }, [sortName, sort]);
+  }, [sortName, sort,pageNumber]);
 
   const onClickSort = (name) => {
     if (sortName == name) {
@@ -132,7 +131,7 @@ const ProductListScreen = ({ history, match }) => {
           <tbody>
             {products.map((product, index) => (
               <tr key={product._id}>
-                <td>{index}</td>
+                <td>{index + 1}</td>
                 <td>
                   <Image
                     src={product.image}
@@ -165,7 +164,25 @@ const ProductListScreen = ({ history, match }) => {
             ))}
           </tbody>
         </Table>
-        <Paginate pages={pages} page={page} isAdmin={true} />
+        {
+          pages > 1 && (
+            <Pagination>
+              {[...Array(pages).keys()].map((x) => (
+                // <LinkContainer
+                //   key={x + 1}
+                //   to={
+                //     !isAdmin
+                //       ? keyword
+                //         ? `/search/${keyword}/page/${x + 1}`
+                //         : `/page/${x + 1}`
+                //       : `/admin/productlist/${x + 1}`
+                //   }
+                // >
+                  <Pagination.Item active={x + 1 === page} key={x+1} onClick={()=>setPageNumber(x+1)}>{x + 1}</Pagination.Item>
+              ))}
+            </Pagination>
+          )
+        }
       </>
     </>
   );

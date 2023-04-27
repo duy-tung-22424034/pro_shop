@@ -59,6 +59,7 @@ const HomeScreen = ({ match }) => {
             <Message variant='danger'>{error}</Message>
           ) : (
             <div className='container-product'>
+              <h1 className='category-title'>Search Result</h1>
               <Row>
                 {products.map((product) => (
                   <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
@@ -66,16 +67,16 @@ const HomeScreen = ({ match }) => {
                   </Col>
                 ))}
               </Row>
-              <Paginate
+              {/* <Paginate
                 pages={pages}
                 page={page}
                 keyword={keyword ? keyword : ''}
-              />
+              /> */}
             </div>
           )}
             </>
           )}
-          {productByCategorys && Object.entries(productByCategorys).map((item,index)=>(
+          {!keyword && productByCategorys && Object.entries(productByCategorys).map((item,index)=>(
             <React.Fragment key={index}>
               <h1 className='category-title'>{item[0]}</h1>
               <div className='container-product'>
@@ -86,11 +87,6 @@ const HomeScreen = ({ match }) => {
                     </Col>
                   ))}
                 </Row>
-                <Paginate
-                  pages={pages}
-                  page={page}
-                  keyword={keyword ? keyword : ''}
-                />
               </div>
             </React.Fragment>
           ))}

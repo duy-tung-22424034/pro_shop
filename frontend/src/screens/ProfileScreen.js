@@ -14,6 +14,7 @@ const ProfileScreen = ({ location, history }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
+  const [successUpdate,setSuccessUpdate] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -34,9 +35,14 @@ const ProfileScreen = ({ location, history }) => {
       history.push("/login");
     } else {
       if (!user || !user.name || success) {
+        if(success != undefined)
+        {
+          setSuccessUpdate(success)
+        }
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
         dispatch(getUserDetails("profile"));
         dispatch(listMyOrders());
+        setConfirmPassword('')
       } else {
         setName(user.name);
         setEmail(user.email);
@@ -58,9 +64,9 @@ const ProfileScreen = ({ location, history }) => {
       <Col md={3}>
         <h2>User Profile</h2>
         {message && <Message variant="danger">{message}</Message>}
-        {success && <Message variant="success">Profile Updated</Message>}
-        {loading && <Loader />}
+        {successUpdate && <Message variant="success">Profile Updated</Message> }
         {error && <Message variant="danger">{error}</Message>}
+        {loading ? <Loader/> :        
         <Form onSubmit={submitHandler}>
           <Form.Group controlId="name">
             <Form.Label>Name</Form.Label>
@@ -98,14 +104,15 @@ const ProfileScreen = ({ location, history }) => {
               type="password"
               placeholder="Confirm password"
               value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
+              onChange={(e) => {setConfirmPassword(e.target.value) 
+                                setMessage('')}}
             ></Form.Control>
           </Form.Group>
 
           <Button type="submit" variant="primary">
             Update
           </Button>
-        </Form>
+        </Form>}
       </Col>
       <Col md={9}>
         <h2>My Orders</h2>
