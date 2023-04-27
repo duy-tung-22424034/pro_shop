@@ -31,7 +31,7 @@ const Header = () => {
             
             <Nav className='ml-auto'>
               {!userInfo?.isAdmin && (
-                <LinkContainer to='/cart'>
+                <LinkContainer to='/cart' style={{width:'80px'}}>
                  <Nav.Link>
                    <i className='fas fa-shopping-cart'></i> Cart
                  </Nav.Link>

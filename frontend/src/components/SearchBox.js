@@ -36,17 +36,6 @@ const SearchBox = ({ history }) => {
     dispatch(listCategories());
   }, []);
 
-  // const chooseCategory = (e)=>{
-  //   e.preventDefault()
-  //   if(category)
-  //   {
-  //     history.push(`/category/${category}`);
-  //   }
-  //   else{
-  //     history.push("/");
-  //   }
-  // }
-
   return (
     <Form onSubmit={submitHandler} style={{ width: "100%" }} inline>
       <select
@@ -54,6 +43,16 @@ const SearchBox = ({ history }) => {
         aria-label="Default select example"
         onChange={(e) => {
           setCategory(e.target.value);
+          if(e.target.value)
+          {
+            if(keyword.trim())
+            {
+              history.push(`/search/category/${keyword}/${category}`);
+            }
+            else{
+              history.push(`/category/${category}`);
+            }
+          }
         }}
         value={category}
       >
@@ -73,9 +72,6 @@ const SearchBox = ({ history }) => {
         placeholder="Search Products..."
         className="mr-sm-2 ml-sm-5 border-5"
       ></Form.Control>
-      <Button type="submit" variant="outline-success" className="p-2 border-5">
-        Search
-      </Button>
     </Form>
   );
 };
