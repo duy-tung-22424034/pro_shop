@@ -21,7 +21,7 @@ import {
 import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 
 const ProductListScreen = ({ history, match }) => {
-  const pageNumber = match.params.pageNumber || 1;
+  const pageNumber = match?.params.pageNumber || 1;
 
   const dispatch = useDispatch();
   const [keyWord, setKeyWord] = useState("");
@@ -112,19 +112,19 @@ const ProductListScreen = ({ history, match }) => {
               <th width={50}>Index</th>
               <th width={120}>IMAGE</th>
               <th width={250} onClick={() => onClickSort("name")}>
-                NAME <i class="fa fa-fw fa-sort"></i>
+                NAME <i className="fa fa-fw fa-sort"></i>
               </th>
               <th width={120} onClick={() => onClickSort("price")}>
-                PRICE <i class="fa fa-fw fa-sort"></i>
+                PRICE <i className="fa fa-fw fa-sort"></i>
               </th>
               <th width={120} onClick={() => onClickSort("countInStock")}>
-                QUANTITY <i class="fa fa-fw fa-sort"></i>
+                QUANTITY <i className="fa fa-fw fa-sort"></i>
               </th>
               <th width={150} onClick={() => onClickSort("category")}>
-                CATEGORY <i class="fa fa-fw fa-sort"></i>
+                CATEGORY <i className="fa fa-fw fa-sort"></i>
               </th>
               <th width={120} onClick={() => onClickSort("brand")}>
-                BRAND <i class="fa fa-fw fa-sort"></i>
+                BRAND <i className="fa fa-fw fa-sort"></i>
               </th>
               <th>ACTION</th>
             </tr>
