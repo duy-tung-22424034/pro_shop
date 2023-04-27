@@ -72,6 +72,14 @@ const updateOrderToPaid = asyncHandler(async (req, res) => {
 
     const updatedOrder = await order.save()
 
+    const items = order.orderItems;
+    const ids = items.map(item => item.product.toString())
+
+    await Product.updateMany(
+      { _id: { $in: ids }},  
+      { $inc: { countInStock: -1 }}
+    )
+
     res.json(updatedOrder)
   } else {
     res.status(404)
