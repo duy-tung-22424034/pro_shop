@@ -25,29 +25,35 @@ const Header = () => {
           </LinkContainer>
           <Navbar.Toggle className='toggle-button' aria-controls='basic-navbar-nav' />
           <Navbar.Collapse id='basic-navbar-nav'>
-            <Route render={({ history }) => <SearchBox className='me-2' history={history} />} />
+            {!userInfo?.isAdmin && (
+              <Route render={({ history }) => <SearchBox className='me-2' history={history} />} />
+            )}
+            
             <Nav className='ml-auto'>
-              <LinkContainer to='/cart'>
-                <Nav.Link>
-                  <i className='fas fa-shopping-cart'></i> Cart
-                </Nav.Link>
-              </LinkContainer>
-              {userInfo ? 
-               !userInfo.isAdmin && ( <NavDropdown title={userInfo.name} id='username'>
-               <LinkContainer to='/profile'>
-                 <NavDropdown.Item>Profile</NavDropdown.Item>
+              {!userInfo?.isAdmin && (
+                <LinkContainer to='/cart'>
+                 <Nav.Link>
+                   <i className='fas fa-shopping-cart'></i> Cart
+                 </Nav.Link>
                </LinkContainer>
-               <NavDropdown.Item onClick={logoutHandler}>
-                 Logout
-               </NavDropdown.Item>
-             </NavDropdown>)
-              : (
+              )}
+              {userInfo && !userInfo.isAdmin && 
+              ( 
+                <NavDropdown title={userInfo.name} id='username'>
+                  <LinkContainer to='/profile'>
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              )}
+              {!userInfo && (
                 <LinkContainer to='/login'>
                   <Nav.Link>
                     <i className='fas fa-user'></i> Sign In
                   </Nav.Link>
                 </LinkContainer>
-                
               )}
               {userInfo && userInfo.isAdmin && (
                 <NavDropdown title='Admin' id='adminmenu'>
